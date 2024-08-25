@@ -1,5 +1,6 @@
 import { response } from "express";
-import productDao from "../dao/mongoDB/product.dao.js";
+import productRepository from "../persistence/mongoDB/product.repository.js";
+
 
 export const checkProductData = async (req = request, res = response, next) => {
     try {
@@ -13,14 +14,14 @@ export const checkProductData = async (req = request, res = response, next) => {
             category
         } 
 
-        const productos = await productDao.getAll();
+        const productos = await productRepository.getAll();
         // validamos que no se repita el campo de code
         const producExits = productos.docs.find((product)=> product.code === code);
         if (producExits) return res.status(400).json({status: "Error", msg: `El producto con el codigo ${code} ya existe`});
 
         // verificamos que los campos sean obligatirios
         const checkData = Object.values(newProduct).includes(undefined);
-        if (checkData) return res.status(400).json({status: "Error", msg: "Todoso los datos son obligatorios"});
+        if (checkData) return res.status(400).json({status: "Error", msg: "Todos los datos son obligatorios"});
 
         next();
 

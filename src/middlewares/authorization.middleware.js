@@ -1,5 +1,6 @@
 import { request, response } from "express"
 
+//MIDDLEWARE PARA VERIFICAR SI EL USUARIO ESTA AUTORIZADO O NO
 export const authorization = (role) => {
     return async (req= request, res= response, next ) => {
         if (!req.user) return res.status(401).json({ status: "error", msg: "Unauthorized" });

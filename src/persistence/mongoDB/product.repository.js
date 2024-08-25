@@ -21,9 +21,8 @@ const create = async (data) => {
 
 // ACTUALIZAMOS PRODUCTOS
 const update = async (id, data) => {
-    const productUpdate = await productModel.findByIdAndUpdate(id, data, {new: true});
-    // const productUpdate = await productModel.find(id);
-    return productUpdate;
+    const productUpdate = await productModel.findByIdAndUpdate(id, data, { new: true });
+  return productUpdate;
 };
 
 // ELIMINAMOS PRODUCTO POR SU ID

@@ -4,13 +4,14 @@ import __dirname from "./dirname.js";
 import handlebars from "express-handlebars";
 import { Server } from "socket.io";
 import viewsRoutes from "./routes/views.routes.js";
-import productManager from "./dao/fileSystem/productManager.js";
+import productManager from "./persistence/fileSystem/productManager.js";
 import { connectMongoDB } from "./config/mongoDB.config.js";
 import session from "express-session";
 import envs from "./config/env.config.js";
 import passport from "passport";
 import { initializePassport } from "./config/passport.config.js";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 
 
@@ -33,6 +34,7 @@ app.use(
     saveUninitialized: true, // Guarda la session
   })
 );
+app.use(cors());
 
 
 initializePassport();
