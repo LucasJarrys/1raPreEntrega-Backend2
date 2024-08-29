@@ -9,7 +9,7 @@ const getAllProducts = async (query, options) =>{
 
 const getProductById = async (pid) =>{
     const product = await productRepository.getById(pid);
-    const productResponse = respProductDto(product);
+    const productResponse = respProductDto(product);     // USAMOS EL DTO
     return productResponse;
 } 
 

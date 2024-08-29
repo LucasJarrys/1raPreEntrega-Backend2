@@ -12,4 +12,10 @@ const createTicket = async (userEmail, totalCart) => {
     return ticket;
 };
 
-export default {createTicket};
+// const eliminateTicket = async (id) => { //NO SE ELIMINABA EL TICKET Y PROBE CON UNA FUNCION 
+//     ticketRepository.deleteOne(id)
+// };
+
+export default {
+    createTicket,
+};

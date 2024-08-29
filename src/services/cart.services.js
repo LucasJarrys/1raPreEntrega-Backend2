@@ -36,6 +36,7 @@ const clearProductsToCart = async (cid) => {
     return await cartRepository.clearProductsToCart(cid);
 }   
 
+//HACEMOS LA COMPRA
 const purchaseCart = async (cid) => {
     const cart = await cartRepository.getById(cid);
     let total = 0;

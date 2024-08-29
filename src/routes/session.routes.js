@@ -4,49 +4,31 @@ import passport from "passport";
 import { createToken } from "../utils/jwt.js";
 import { passportCall } from "../middlewares/passport.middleware.js";
 import userRepository from "../persistence/mongoDB/user.repository.js";
-
+import sessionControllers from "../controllers/session.controllers.js";
 
 
 const router = Router();
 
-router.post("/register", passportCall("register"), async (req, res) => {
-    try {
-        
-        res.status(201).json({status: "OK", msg: "User create"});
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({status: "error", msg: "Internal server Error"});
-    }
-});
+// RUTA PARA REGISTRAR USUARIO
+router.post("/register", passportCall("register"), sessionControllers.createSession);
 
-//GOOGLE
+// RUTA GOOGLE
 router.get("/google",
   passport.authenticate("google", {
     scope: ["https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile"],
     session: false,
-  }), async (req, res) => {
-    try {
-       
-      return res.status(200).json({status: "OK", payload: req.user})
+  }), sessionControllers.createGoogleSession);
 
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({status: "error", msg: "Internal server Error"});
-    }
-});
+// RUTA PARA LOGUEAMOS USUARIO
+router.post("/login", passportCall("login"), sessionControllers.loginSession );
 
-router.post("/login", passportCall("login"), async (req, res) => {
-    try {
-      const token = createToken(req.user); // CREAMOS NUESTRO TOKEN
-      res.cookie("token", token, { httpOnly: true });
-      
-      return res.status(200).json({status: "OK", payload: req.user})
 
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({status: "error", msg: "Internal server Error"});
-    }
-});
+router.get("/current", passportCall("current"), sessionControllers.getCurrentSession)
+
+
+
+
+
 
 // VOY A UTILIZAR LA RUTA DE LOGIN
 // router.post("/auth", async (req, res) => {  
@@ -64,11 +46,5 @@ router.post("/login", passportCall("login"), async (req, res) => {
 //     res.status(500).json({ status: "error", msg: "Internal server error" });
 //   }
 // });
-
-router.get("/current", passportCall("current"), async (req, res) => {
-
-    res.status(200).json({status: "OK", user: req.user})
-})
-
 
 export default router
